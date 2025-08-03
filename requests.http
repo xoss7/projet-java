@@ -13,3 +13,6 @@ GET http://localhost:8080/api/administrateurs/1
 
 ### READ - Lire un admin avec un id invalide
 GET http://localhost:8080/api/administrateurs/99999
+
+### READ - Lire tous les admins dans la base
+GET http://localhost:8080/api/administrateurs

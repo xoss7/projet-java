@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -37,8 +38,15 @@ public class AdministrateurController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AdministrateurResponseDTO> findById(@PathVariable Long id) {
-        log.info("FIND - ADMINISTRATEUR");
+        log.info("GET - ADMINISTRATEUR");
         AdministrateurResponseDTO response = administrateurService.findById(id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AdministrateurResponseDTO>> findAll() {
+        log.info("GET - ALL ADMINISTRATEURS");
+        List<AdministrateurResponseDTO> admins = administrateurService.findAll();
+        return ResponseEntity.ok(admins);
     }
 }

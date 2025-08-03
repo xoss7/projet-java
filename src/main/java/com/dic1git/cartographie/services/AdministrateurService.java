@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -31,5 +33,14 @@ public class AdministrateurService {
                         () -> new ItemNotFoundException("Administrateur avec id " + id + " n'existe pas")
                 );
         return administrateurMapper.toDTO(administrateur);
+    }
+
+    public List<AdministrateurResponseDTO> findAll() {
+        log.info("Find All Administrateurs");
+        List<Administrateur> administrateurs = administrateurRepository.findAll();
+        return administrateurs
+                .stream()
+                .map(administrateurMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
