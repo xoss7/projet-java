@@ -1,0 +1,15 @@
+### CREATE - administrateur
+POST http://localhost:8080/api/administrateurs
+Content-Type: application/json
+
+{
+  "username": "Amath",
+  "email": "amath@ept.sn",
+  "password": "amath123"
+}
+
+### READ - Lire un admin avec son id
+GET http://localhost:8080/api/administrateurs/1
+
+### READ - Lire un admin avec un id invalide
+GET http://localhost:8080/api/administrateurs/99999
