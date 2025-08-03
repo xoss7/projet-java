@@ -58,4 +58,9 @@ public class AdministrateurService {
         administrateurRepository.save(admin);
         return administrateurMapper.toDTO(admin);
     }
+
+    public void deleteAdministrateur(Long id) {
+        log.info("Delete Administrateur with id: {}", id);
+        administrateurRepository.deleteById(id);
+    }
 }

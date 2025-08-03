@@ -60,4 +60,11 @@ public class AdministrateurController {
         AdministrateurResponseDTO response = administrateurService.update(id, administrateur);
         return ResponseEntity.accepted().body(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AdministrateurResponseDTO> deleteAdministrateur(@PathVariable Long id) {
+        log.info("DELETE - ADMINISTRATEUR");
+        administrateurService.deleteAdministrateur(id);
+        return ResponseEntity.noContent().build();
+    }
 }

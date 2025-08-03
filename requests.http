@@ -36,3 +36,6 @@ Content-Type: application/json
   "email": "lamogo@ept.sn",
   "password": "lamogo123"
 }
+
+### DELETE - Supprimer un admin
+DELETE http://localhost:8080/api/administrateurs/2
