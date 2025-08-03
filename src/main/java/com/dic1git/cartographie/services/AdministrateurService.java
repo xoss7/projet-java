@@ -22,6 +22,7 @@ public class AdministrateurService {
     AdministrateurRepository administrateurRepository;
     AdministrateurMapper administrateurMapper;
 
+    @Transactional
     public AdministrateurResponseDTO save(Administrateur administrateur) {
         log.info("Ajoute Administrateur: {}", administrateur);
         administrateurRepository.save(administrateur);
@@ -46,6 +47,7 @@ public class AdministrateurService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public AdministrateurResponseDTO update(Long id, Administrateur administrateur) {
         log.info("Update Administrateur with id: {}", id);
         Administrateur admin =  administrateurRepository.findById(id)
@@ -59,6 +61,7 @@ public class AdministrateurService {
         return administrateurMapper.toDTO(admin);
     }
 
+    @Transactional
     public void deleteAdministrateur(Long id) {
         log.info("Delete Administrateur with id: {}", id);
         administrateurRepository.deleteById(id);
