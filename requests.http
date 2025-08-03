@@ -16,3 +16,23 @@ GET http://localhost:8080/api/administrateurs/99999
 
 ### READ - Lire tous les admins dans la base
 GET http://localhost:8080/api/administrateurs
+
+### UPDATE - Mettre à jour un admin
+PUT http://localhost:8080/api/administrateurs/1
+Content-Type: application/json
+
+{
+  "username": "Lamogo",
+  "email": "lamogo@ept.sn",
+  "password": "lamogo123"
+}
+
+### UPDATE - Mettre à jour un admin inexistant
+PUT http://localhost:8080/api/administrateurs/99999
+Content-Type: application/json
+
+{
+  "username": "Lamogo",
+  "email": "lamogo@ept.sn",
+  "password": "lamogo123"
+}

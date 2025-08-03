@@ -49,4 +49,15 @@ public class AdministrateurController {
         List<AdministrateurResponseDTO> admins = administrateurService.findAll();
         return ResponseEntity.ok(admins);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AdministrateurResponseDTO> updateAdministrateur(
+            @Validated @RequestBody AdministrateurDTO administrateurDTO,
+            @PathVariable Long id) {
+
+        log.info("PUT - ADMINISTRATEUR");
+        Administrateur administrateur = administrateurMapper.toEntity(administrateurDTO);
+        AdministrateurResponseDTO response = administrateurService.update(id, administrateur);
+        return ResponseEntity.accepted().body(response);
+    }
 }

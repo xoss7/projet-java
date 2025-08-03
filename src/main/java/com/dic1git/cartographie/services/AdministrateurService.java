@@ -1,5 +1,6 @@
 package com.dic1git.cartographie.services;
 
+import com.dic1git.cartographie.dto.AdministrateurDTO;
 import com.dic1git.cartographie.dto.AdministrateurResponseDTO;
 import com.dic1git.cartographie.entities.Administrateur;
 import com.dic1git.cartographie.exceptions.ItemNotFoundException;
@@ -8,6 +9,7 @@ import com.dic1git.cartographie.repositories.AdministrateurRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,5 +44,18 @@ public class AdministrateurService {
                 .stream()
                 .map(administrateurMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public AdministrateurResponseDTO update(Long id, Administrateur administrateur) {
+        log.info("Update Administrateur with id: {}", id);
+        Administrateur admin =  administrateurRepository.findById(id)
+                .orElseThrow(
+                        () -> new ItemNotFoundException("Administrateur avec id " + id + " n'existe pas")
+                );
+        admin.setUsername(administrateur.getUsername());
+        admin.setEmail(administrateur.getEmail());
+        admin.setPassword(administrateur.getPassword());
+        administrateurRepository.save(admin);
+        return administrateurMapper.toDTO(admin);
     }
 }
