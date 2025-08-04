@@ -70,3 +70,47 @@ Content-Type: application/json
 
 ### DELETE - Supprimer une recommandations
 DELETE http://localhost:8080/api/recommandations/4
+
+###
+
+### CREATE - Etablissement
+POST http://localhost:8080/api/etablissement/
+Content-Type: application/json
+
+{
+  "nom_etablissement": "Ecole Polytechnique de Thiès",
+  "description": "Ecole d'ingénierie",
+  "email": "ept@ept.sn",
+  "telephone": "77 982 55 55",
+  "statut": "PUBLIC",
+  "site_web": "https://www.ept.edu.sn",
+  "region": "Thiès",
+  "ville": "Thès",
+  "localisation": "14.7955479,-16.9695092"
+}
+
+
+### READ - Etablissement
+GET http://localhost:8080/api/etablissement/
+
+### READ - Etablissement
+GET http://localhost:8080/api/etablissement/1
+
+### UPDATE
+PUT http://localhost:8080/api/etablissement/1
+Content-Type: application/json
+
+{
+  "nom_etablissement": "Ecole Polytechnique de Thiès",
+  "description": "Ecole d'ingénierie",
+  "email": "ept@ept.sn",
+  "telephone": "+221 76 223 61 60",
+  "statut": "PUBLIC",
+  "site_web": "https://www.ept.edu.sn",
+  "region": "Thiès",
+  "ville": "Thès",
+  "localisation": "14.7955479,-16.9695092"
+}
+
+### DELETE
+DELETE http://localhost:8080/api/etablissement/1
