@@ -8,6 +8,7 @@ import com.dic1git.cartographie.mappers.EtablissementMapper;
 import com.dic1git.cartographie.repositories.EtablissementRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class EtablissementService {
     private EtablissementRepository etablissementRepository;
     private EtablissementMapper etablissementMapper;
 
+    @Transactional
     public EtablissementResponseDTO save(Etablissement etablissement) {
         etablissementRepository.save(etablissement);
         return etablissementMapper.toDTO(etablissement);
@@ -36,6 +38,7 @@ public class EtablissementService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public EtablissementResponseDTO updateById(Long id, Etablissement etablissement) {
         Etablissement updated = etablissementRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("Etablissement avec id " + id + " n'existe pas"));
@@ -52,6 +55,7 @@ public class EtablissementService {
         return etablissementMapper.toDTO(updated);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         etablissementRepository.deleteById(id);
     }
