@@ -39,3 +39,34 @@ Content-Type: application/json
 
 ### DELETE - Supprimer un admin
 DELETE http://localhost:8080/api/administrateurs/2
+
+### Recommandation
+
+### CREATE - Créer une recommandation
+POST http://localhost:8080/api/recommandations
+Content-Type: application/json
+
+{
+  "nom_etablissement": "Gentle Academy",
+  "email": "gentle@example.com",
+  "telephone": "+000 74 023 20"
+}
+
+### READ - Lire une récommandation
+GET http://localhost:8080/api/recommandations/1
+
+### READ - Lire Toutes les recommandations
+GET http://localhost:8080/api/recommandations
+
+### UPDATE - Mettre à jour une recommandation
+PUT http://localhost:8080/api/recommandations/1
+Content-Type: application/json
+
+{
+  "nom_etablissement": "Ecole Supérieure Polytechnique",
+  "email": "poly@example.com",
+  "telephone": "73 239 23 23"
+}
+
+### DELETE - Supprimer une recommandations
+DELETE http://localhost:8080/api/recommandations/4
