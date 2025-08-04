@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/administrateurs")
@@ -25,7 +24,6 @@ public class AdministrateurController {
 
     @PostMapping
     public ResponseEntity<AdministrateurResponseDTO> createAdministrateur(@Validated @RequestBody AdministrateurDTO administrateurDTO) {
-        log.info("CREATE - ADMINISTRATEUR");
         Administrateur administrateur = administrateurMapper.toEntity(administrateurDTO);
         AdministrateurResponseDTO response = administrateurService.save(administrateur);
         URI location = ServletUriComponentsBuilder
@@ -38,14 +36,12 @@ public class AdministrateurController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AdministrateurResponseDTO> findById(@PathVariable Long id) {
-        log.info("GET - ADMINISTRATEUR");
         AdministrateurResponseDTO response = administrateurService.findById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<List<AdministrateurResponseDTO>> findAll() {
-        log.info("GET - ALL ADMINISTRATEURS");
         List<AdministrateurResponseDTO> admins = administrateurService.findAll();
         return ResponseEntity.ok(admins);
     }
@@ -55,7 +51,6 @@ public class AdministrateurController {
             @Validated @RequestBody AdministrateurDTO administrateurDTO,
             @PathVariable Long id) {
 
-        log.info("PUT - ADMINISTRATEUR");
         Administrateur administrateur = administrateurMapper.toEntity(administrateurDTO);
         AdministrateurResponseDTO response = administrateurService.update(id, administrateur);
         return ResponseEntity.accepted().body(response);
@@ -63,7 +58,6 @@ public class AdministrateurController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<AdministrateurResponseDTO> deleteAdministrateur(@PathVariable Long id) {
-        log.info("DELETE - ADMINISTRATEUR");
         administrateurService.deleteAdministrateur(id);
         return ResponseEntity.noContent().build();
     }
