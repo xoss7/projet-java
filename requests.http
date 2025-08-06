@@ -114,3 +114,32 @@ Content-Type: application/json
 
 ### DELETE
 DELETE http://localhost:8080/api/etablissement/1
+
+###
+
+### CREATE - Formation pour un établissement
+POST http://localhost:8080/api/etablissements/3/formations
+Content-Type: application/json
+
+{
+  "nom": "Informatique",
+  "description": "Formation de mois en Génie Informatique"
+}
+
+### READ - Lister les formations d'un établissement
+GET http://localhost:8080/api/etablissements/3/formations
+
+### READ - Lire une formation spécifique
+GET http://localhost:8080/api/etablissements/3/formations/5
+
+### UPDATE - Modifier une formation d'un établissement
+PUT http://localhost:8080/api/etablissements/3/formations/5
+Content-Type: application/json
+
+{
+  "nom": "Génie Industriel",
+  "description": "Ingenierie Genie Industriel"
+}
+
+### DELETE - Supprimer une formation d'un établissement
+DELETE http://localhost:8080/api/etablissements/3/formations/5
