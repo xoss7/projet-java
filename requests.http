@@ -143,3 +143,32 @@ Content-Type: application/json
 
 ### DELETE - Supprimer une formation d'un établissement
 DELETE http://localhost:8080/api/etablissements/3/formations/5
+
+######### Informations publiées par les etablissements
+
+###
+POST http://localhost:8080/api/etablissements/2/infos
+Content-Type: application/json
+
+{
+  "titre": "Inscription",
+  "contenu": "Les inscriptions vont demarrer"
+}
+
+###
+GET http://localhost:8080/api/etablissements/2/infos/5
+
+###
+GET http://localhost:8080/api/etablissements/2/infos
+
+###
+PUT http://localhost:8080/api/etablissements/2/infos/5
+Content-Type: application/json
+
+{
+  "titre": "Inscription 2025/2026",
+  "contenu": "Les inscriptions vont demarrer le lundi 17 octobre 2025 au niveau de la scolarité"
+}
+
+###
+DELETE http://localhost:8080/api/etablissements/2/infos/5
