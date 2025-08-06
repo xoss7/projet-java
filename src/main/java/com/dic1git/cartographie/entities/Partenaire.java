@@ -20,7 +20,4 @@ public class Partenaire {
     private String nom;
     @Column(unique = true)
     private String email;
-
-    @ManyToMany(mappedBy = "partenaires")
-    private Set<Etablissement> etablissements;
 }

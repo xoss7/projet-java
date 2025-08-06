@@ -40,12 +40,4 @@ public class Etablissement {
     @OneToMany(mappedBy = "etablissement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Infos> informations;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "etablissement_partenaire",
-            joinColumns = @JoinColumn(name = "etablissement_id"),
-            inverseJoinColumns = @JoinColumn(name = "partenaire_id")
-    )
-    private Set<Partenaire> partenaires;
 }
