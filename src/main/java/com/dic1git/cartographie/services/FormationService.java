@@ -10,6 +10,7 @@ import com.dic1git.cartographie.repositories.EtablissementRepository;
 import com.dic1git.cartographie.repositories.FormationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class FormationService {
                 .orElseThrow(() -> new ItemNotFoundException("Etablissement avec id " + id + " n'existe pas"));
     }
 
+    @Transactional
     public FormationResponseDTO save(FormationDTO formationDTO, Long idEtablissement) throws ItemNotFoundException {
         Etablissement etablissement = etablissementPresentOrThrow(idEtablissement);
         Formation formation = formationMapper.toEntity(formationDTO);
@@ -58,6 +60,7 @@ public class FormationService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public FormationResponseDTO updateById(Long idEtablissement, Long idFormation, FormationDTO formationDTO) {
         etablissementPresentOrThrow(idEtablissement);
         Formation updated = formationRepository.findById(idFormation)
@@ -68,6 +71,7 @@ public class FormationService {
         return formationMapper.toDTO(updated);
     }
 
+    @Transactional
     public void deleteById(Long idEtablissement, Long idFormation) {
         etablissementPresentOrThrow(idEtablissement);
         formationRepository.deleteById(idFormation);
