@@ -172,3 +172,35 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:8080/api/etablissements/2/infos/5
+
+
+#########
+
+###
+POST http://localhost:8080/api/partenaires
+Content-Type: application/json
+
+{
+  "nom": "Senelec",
+  "email": "senelec@senelec.sn",
+  "secteur": "Energie"
+}
+
+###
+GET http://localhost:8080/api/partenaires
+
+###
+GET http://localhost:8080/api/partenaires/1
+
+###
+PUT http://localhost:8080/api/partenaires/1
+Content-Type: application/json
+
+{
+  "nom": "Sonatel",
+  "email": "Sonatel",
+  "secteur": "Télécommunication et Informatique"
+}
+
+###
+DELETE http://localhost:8080/api/partenaires/2

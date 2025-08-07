@@ -1,0 +1,60 @@
+package com.dic1git.cartographie.controllers;
+
+import com.dic1git.cartographie.dto.PartenaireDTO;
+import com.dic1git.cartographie.dto.PartenaireResponseDTO;
+import com.dic1git.cartographie.mappers.PartenaireMapper;
+import com.dic1git.cartographie.services.PartenaireService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/partenaires")
+public class PartenaireController {
+
+    private PartenaireService partenaireService;
+    private PartenaireMapper partenaireMapper;
+
+
+    @PostMapping
+    public ResponseEntity<PartenaireResponseDTO> save(@Validated @RequestBody PartenaireDTO partenaireDTO) {
+        PartenaireResponseDTO response = partenaireService.save(partenaireDTO);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PartenaireResponseDTO>> findAll() {
+        List<PartenaireResponseDTO> response = partenaireService.findAll();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PartenaireResponseDTO> findById(@PathVariable Long id) {
+        PartenaireResponseDTO response = partenaireService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PartenaireResponseDTO> updateById(@PathVariable Long id,
+                                                            @Validated @RequestBody PartenaireDTO partenaireDTO) {
+        PartenaireResponseDTO response = partenaireService.updateById(id, partenaireDTO);
+        return ResponseEntity.accepted().body(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        partenaireService.deleteById(id);
+    }
+
+}
