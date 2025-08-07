@@ -1,18 +1,15 @@
 package com.dic1git.cartographie.services;
 
-import com.dic1git.cartographie.dto.AdministrateurDTO;
 import com.dic1git.cartographie.dto.AdministrateurResponseDTO;
 import com.dic1git.cartographie.entities.Administrateur;
-import com.dic1git.cartographie.exceptions.ItemNotFoundException;
 import com.dic1git.cartographie.mappers.AdministrateurMapper;
 import com.dic1git.cartographie.repositories.AdministrateurRepository;
+import com.dic1git.cartographie.utils.EntityUtils;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +25,7 @@ public class AdministrateurService {
     }
 
     public AdministrateurResponseDTO findById(Long id) {
-        Administrateur administrateur = administrateurRepository.findById(id)
-                .orElseThrow(
-                        () -> new ItemNotFoundException("Administrateur avec id " + id + " n'existe pas")
-                );
+        Administrateur administrateur = EntityUtils.getEntityOrThrow(id, administrateurRepository, "Administrateur");
         return administrateurMapper.toDTO(administrateur);
     }
 
@@ -45,10 +39,7 @@ public class AdministrateurService {
 
     @Transactional
     public AdministrateurResponseDTO update(Long id, Administrateur administrateur) {
-        Administrateur admin =  administrateurRepository.findById(id)
-                .orElseThrow(
-                        () -> new ItemNotFoundException("Administrateur avec id " + id + " n'existe pas")
-                );
+        Administrateur admin =  EntityUtils.getEntityOrThrow(id, administrateurRepository, "Administrateur");
         admin.setUsername(administrateur.getUsername());
         admin.setEmail(administrateur.getEmail());
         admin.setPassword(administrateur.getPassword());
@@ -58,6 +49,7 @@ public class AdministrateurService {
 
     @Transactional
     public void deleteAdministrateur(Long id) {
+        EntityUtils.entityExistsOrThrow(id, administrateurRepository, "Administrateur");
         administrateurRepository.deleteById(id);
     }
 }

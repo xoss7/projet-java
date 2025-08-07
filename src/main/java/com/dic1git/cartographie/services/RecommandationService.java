@@ -2,15 +2,14 @@ package com.dic1git.cartographie.services;
 
 import com.dic1git.cartographie.dto.RecommandationResponseDTO;
 import com.dic1git.cartographie.entities.Recommandation;
-import com.dic1git.cartographie.exceptions.ItemNotFoundException;
 import com.dic1git.cartographie.mappers.RecommandationMapper;
 import com.dic1git.cartographie.repositories.RecommandationRepository;
+import com.dic1git.cartographie.utils.EntityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +25,7 @@ public class RecommandationService {
     }
 
     public RecommandationResponseDTO findById(Long id) {
-        Recommandation recommandation = recommandationRepository.findById(id)
-                .orElseThrow(
-                        () -> new ItemNotFoundException("Recommandation avec id " + id + " n'existe pas")
-                );
+        Recommandation recommandation = EntityUtils.getEntityOrThrow(id, recommandationRepository, "Recommandation");
         return recommandationMapper.toDTO(recommandation);
     }
 
@@ -42,10 +38,7 @@ public class RecommandationService {
     }
 
     public RecommandationResponseDTO update(Long id, Recommandation recommandation) {
-        Recommandation updated =  recommandationRepository.findById(id)
-                .orElseThrow(
-                        () -> new ItemNotFoundException("Recommandation avec id " + id + " n'existe pas")
-                );
+        Recommandation updated = EntityUtils.getEntityOrThrow(id, recommandationRepository, "Recommandation");
         updated.setNomEtablissement(recommandation.getNomEtablissement());
         updated.setEmail(recommandation.getEmail());
         updated.setTelephone(recommandation.getTelephone());
@@ -54,10 +47,7 @@ public class RecommandationService {
     }
 
     public void delete(Long id) {
-        Recommandation recommandation = recommandationRepository.findById(id)
-                .orElseThrow(
-                        () -> new ItemNotFoundException("Recommandation avec id " + id + " n'existe pas")
-                );
+        Recommandation recommandation = EntityUtils.getEntityOrThrow(id, recommandationRepository, "Recommandation");
         recommandationRepository.delete(recommandation);
     }
 }

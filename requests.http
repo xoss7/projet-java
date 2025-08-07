@@ -203,4 +203,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/partenaires/2
+DELETE http://localhost:8080/api/partenaires/1

@@ -8,6 +8,7 @@ import com.dic1git.cartographie.exceptions.ItemNotFoundException;
 import com.dic1git.cartographie.mappers.InfosMapper;
 import com.dic1git.cartographie.repositories.EtablissementRepository;
 import com.dic1git.cartographie.repositories.InfosRepository;
+import com.dic1git.cartographie.utils.EntityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,7 @@ public class InfosService {
 
     @Transactional
     public InfosResponseDTO save(Long idEtablissement, InfosDTO infosDTO) {
-
-        Etablissement etablissement = etablissementRepository.findById(idEtablissement)
-                .orElseThrow(() -> new ItemNotFoundException("Etablissement avec id " +idEtablissement+ " n'existe pas"));
-
+        Etablissement etablissement = EntityUtils.getEntityOrThrow(idEtablissement, etablissementRepository, "Etablissement");
         Infos infos = infosMapper.toEntity(infosDTO);
         infos.setEtablissement(etablissement);
         infosRepository.save(infos);

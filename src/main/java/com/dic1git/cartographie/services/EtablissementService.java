@@ -1,11 +1,10 @@
 package com.dic1git.cartographie.services;
 
-import com.dic1git.cartographie.dto.EtablissementDTO;
 import com.dic1git.cartographie.dto.EtablissementResponseDTO;
 import com.dic1git.cartographie.entities.Etablissement;
-import com.dic1git.cartographie.exceptions.ItemNotFoundException;
 import com.dic1git.cartographie.mappers.EtablissementMapper;
 import com.dic1git.cartographie.repositories.EtablissementRepository;
+import com.dic1git.cartographie.utils.EntityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +25,7 @@ public class EtablissementService {
     }
 
     public EtablissementResponseDTO findById(Long id) {
-        Etablissement etablissement = etablissementRepository.findById(id)
-                .orElseThrow(() -> new ItemNotFoundException("Etablissement avec id " + id + " n'existe pas"));
+        Etablissement etablissement = EntityUtils.getEntityOrThrow(id, etablissementRepository, "Etablissement");
         return etablissementMapper.toDTO(etablissement);
     }
 
@@ -40,8 +38,7 @@ public class EtablissementService {
 
     @Transactional
     public EtablissementResponseDTO updateById(Long id, Etablissement etablissement) {
-        Etablissement updated = etablissementRepository.findById(id)
-                .orElseThrow(() -> new ItemNotFoundException("Etablissement avec id " + id + " n'existe pas"));
+        Etablissement updated = EntityUtils.getEntityOrThrow(id, etablissementRepository, "Etablissement");
         updated.setNom(etablissement.getNom());
         updated.setTel(etablissement.getTel());
         updated.setRegion(etablissement.getRegion());
@@ -57,6 +54,7 @@ public class EtablissementService {
 
     @Transactional
     public void deleteById(Long id) {
+        EntityUtils.getEntityOrThrow(id, etablissementRepository, "Etablissement");
         etablissementRepository.deleteById(id);
     }
 }

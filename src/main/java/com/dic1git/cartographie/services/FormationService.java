@@ -8,6 +8,7 @@ import com.dic1git.cartographie.exceptions.ItemNotFoundException;
 import com.dic1git.cartographie.mappers.FormationMapper;
 import com.dic1git.cartographie.repositories.EtablissementRepository;
 import com.dic1git.cartographie.repositories.FormationRepository;
+import com.dic1git.cartographie.utils.EntityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +23,9 @@ public class FormationService {
     FormationMapper formationMapper;
     EtablissementRepository etablissementRepository;
 
-    private Etablissement etablissementPresentOrThrow(Long id) {
-        return etablissementRepository.findById(id)
-                .orElseThrow(() -> new ItemNotFoundException("Etablissement avec id " + id + " n'existe pas"));
-    }
-
     @Transactional
     public FormationResponseDTO save(FormationDTO formationDTO, Long idEtablissement) throws ItemNotFoundException {
-        Etablissement etablissement = etablissementPresentOrThrow(idEtablissement);
+        Etablissement etablissement = EntityUtils.getEntityOrThrow(idEtablissement, etablissementRepository, "Etablissement");
         Formation formation = formationMapper.toEntity(formationDTO);
         formation.setEtablissement(etablissement);
         formationRepository.save(formation);
@@ -37,7 +33,7 @@ public class FormationService {
     }
 
     public FormationResponseDTO findById(Long idEtablissement, Long idFormation) {
-        etablissementPresentOrThrow(idEtablissement);
+        EntityUtils.entityExistsOrThrow(idEtablissement, etablissementRepository, "Etablissement");
         Formation formation =  formationRepository.findByIdAndEtablissement_Id(idFormation, idEtablissement)
                 .orElseThrow(
                         () -> new ItemNotFoundException("Formation avec id " + idFormation + " de l'établissement " + idEtablissement + " n'existe pas")
@@ -46,7 +42,7 @@ public class FormationService {
     }
 
     public List<FormationResponseDTO> findAllByEtablissementId(Long idEtablissement) {
-        etablissementPresentOrThrow(idEtablissement);
+        EntityUtils.entityExistsOrThrow(idEtablissement, etablissementRepository, "Etablissement");
         List<Formation> formations = formationRepository.findByEtablissement_Id(idEtablissement);
         return formations.stream()
                 .map(formationMapper::toDTO)
@@ -62,9 +58,11 @@ public class FormationService {
 
     @Transactional
     public FormationResponseDTO updateById(Long idEtablissement, Long idFormation, FormationDTO formationDTO) {
-        etablissementPresentOrThrow(idEtablissement);
-        Formation updated = formationRepository.findById(idFormation)
-                .orElseThrow(() -> new ItemNotFoundException("Formation avec id " + idFormation + " de l'établissement " +idEtablissement+ " n'existe pas"));
+        EntityUtils.entityExistsOrThrow(idEtablissement, etablissementRepository, "Etablissement");
+        Formation updated = formationRepository.findByIdAndEtablissement_Id(idFormation, idEtablissement)
+                .orElseThrow(
+                        () -> new ItemNotFoundException("Formation avec id " + idFormation + " de l'établissement " + idEtablissement + " n'existe pas")
+                );
         updated.setNom(formationDTO.getNom());
         updated.setDescription(formationDTO.getDescription());
         formationRepository.save(updated);
@@ -73,7 +71,10 @@ public class FormationService {
 
     @Transactional
     public void deleteById(Long idEtablissement, Long idFormation) {
-        etablissementPresentOrThrow(idEtablissement);
+        formationRepository.findByIdAndEtablissement_Id(idFormation, idEtablissement)
+                .orElseThrow(
+                        () -> new ItemNotFoundException("Formation avec id " + idFormation + " de l'établissement " + idEtablissement + " n'existe pas")
+                );
         formationRepository.deleteById(idFormation);
     }
 
