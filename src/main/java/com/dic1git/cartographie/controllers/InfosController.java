@@ -4,6 +4,8 @@ import com.dic1git.cartographie.dto.InfosDTO;
 import com.dic1git.cartographie.dto.InfosResponseDTO;
 import com.dic1git.cartographie.mappers.InfosMapper;
 import com.dic1git.cartographie.services.InfosService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+@Tag(name = "Endpoint des informations publiées par les établissements")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/etablissements/{idEtablissement}/infos")
@@ -21,6 +24,7 @@ public class InfosController {
     private InfosService infosService;
     private InfosMapper infosMapper;
 
+    @Operation(summary = "Publier une information pour un établissement")
     @PostMapping
     public ResponseEntity<InfosResponseDTO> save(
             @PathVariable Long idEtablissement,
@@ -35,12 +39,14 @@ public class InfosController {
         return ResponseEntity.created(location).body(response);
     }
 
+    @Operation(summary = "Afficher une information publiée par un établissement")
     @GetMapping("/{idInfos}")
     public ResponseEntity<InfosResponseDTO> getInfos(@PathVariable Long idEtablissement, @PathVariable Long idInfos) {
         InfosResponseDTO response = infosService.findById(idEtablissement, idInfos);
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "")
     @GetMapping
     public ResponseEntity<List<InfosResponseDTO>> getAllInfos(@PathVariable Long idEtablissement) {
         List<InfosResponseDTO> response = infosService.findAllByEtablissement_Id(idEtablissement);
