@@ -69,7 +69,7 @@ package_job:
     DOCKER_HOST: tcp://docker:2375
   script:
     - microdnf install -y dnf-plugins-core &&
-      dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo &&
+      microdnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo &&
       microdnf install -y docker-ce-cli containerd.io
     - ./mvnw package -DskipTests=true
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
