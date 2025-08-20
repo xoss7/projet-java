@@ -18,16 +18,23 @@ cache:
 before_script:
   - chmod +x mvnw
 
-build-job:
+build_job:
   stage: build
   script:
-    - ./mvnw compile -e
+    - ./mvnw package -DskipTests=true -e
       -Dhttps.protocols=TLSv1.2
       -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
       -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
       -Dorg.slf4j.simpleLogger.showDateTime=true
       -Djava.awt.headless=true
       --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
+  artifacts:
+    paths:
+      - target/*.jar
+    untracked: false
+    when: on_success
+    access: all
+    expire_in: 30 days
 
 #unit-test-job:
 #  stage: test
@@ -63,15 +70,13 @@ quality_job:
 
 package_job:
   stage: package
+  image: docker:stable
   services:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
+  needs: ["build_job"]
   script:
-    - microdnf install -y dnf-plugins-core &&
-      microdnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo &&
-      microdnf install -y docker-ce-cli containerd.io
-    - ./mvnw package -DskipTests=true
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
