@@ -68,7 +68,9 @@ package_job:
   variables:
     DOCKER_HOST: tcp://docker:2375
   script:
-    - microdnf install -y docker-ce-cli containerd.io
+    - microdnf install -y dnf-plugins-core &&
+      dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo &&
+      microdnf install -y docker-ce-cli containerd.io
     - ./mvnw package -DskipTests=true
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
