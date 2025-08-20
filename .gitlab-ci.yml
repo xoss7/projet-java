@@ -19,7 +19,7 @@ before_script:
 build-job:
   stage: build
   script:
-    - ./mvnw compile
+    - ./mvnw compile -e
       -Dhttps.protocols=TLSv1.2
       -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
       -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
