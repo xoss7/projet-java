@@ -44,6 +44,8 @@ quality_job:
   stage: quality
   allow_failure: true
   image: docker:stable
+  services:
+    - docker:dind
   script:
     - mkdir "codequality-results"
     - docker run
