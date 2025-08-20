@@ -63,12 +63,12 @@ quality_job:
 
 package_job:
   stage: package
-  image: docker:stable
   services:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
   script:
+    - microdnf install -y docker-ce-cli containerd.io
     - ./mvnw package -DskipTests=true
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
