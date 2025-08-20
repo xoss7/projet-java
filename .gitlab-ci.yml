@@ -67,13 +67,13 @@ quality_job:
 
 package_job:
   stage: package
+  image: docker:stable
   services:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
   needs: ["build-job"]
   script:
-    - microdnf install -y docker-cli
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
