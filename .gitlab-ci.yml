@@ -28,10 +28,6 @@ build-job:
       -Dorg.slf4j.simpleLogger.showDateTime=true
       -Djava.awt.headless=true
       --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true
-  artifacts:
-    paths:
-      - target/*.jar
-    expire_in: 1 week
 
 #unit-test-job:
 #  stage: test
@@ -72,8 +68,8 @@ package_job:
     - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375
-  needs: ["build-job"]
   script:
+    - ./mvnw package -DskipTests=true
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
