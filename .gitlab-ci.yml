@@ -2,7 +2,7 @@ stages:
   - build
   - test
 
-image: eclipse-temurin:24-jre-ubi9-minimal
+image: openjdk:24-jdk-oracle
 
 cache:
   paths:
@@ -10,6 +10,8 @@ cache:
   key:
     files:
       - pom.xml
+  fallback_keys:
+    - "maven-default"
 
 before_script:
   - chmod +x mvnw
