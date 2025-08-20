@@ -5,11 +5,14 @@ stages:
 image: eclipse-temurin:24-jre-ubi9-minimal
 
 cache:
-    paths:
-      - .m2/repository
-    key:
-        files:
-            - pom.xml
+  paths:
+    - .m2/repository
+  key:
+    files:
+      - pom.xml
+
+before_script:
+  - chmod +x mvnw
 
 build-job:
   stage: build
